@@ -1,3 +1,6 @@
+from PrettyPrint import PrettyPrintTree
+
+
 class Node:
     def __init__(self, value):
         self.value = value
@@ -6,69 +9,87 @@ class Node:
 
 
 class BinaryTree:
-    def __init__(self, main):
-        self.main = main
+    def __init__(self, source):
+        self.source = source
 
-    def insert(self, value, node = None):
-        nodeSource = node if node else self.main
+    def get_source(self):
+        return self.source
+
+    def insert(self, value, node=None):
+        nodeSource = node if node else self.get_source()
         newNode = Node(value)
-        
+
         if (value > nodeSource.value):
             if nodeSource.bigger:
                 return self.insert(value, nodeSource.bigger)
             else:
                 nodeSource.bigger = newNode
-                return "Inserido!"
         elif (value < nodeSource.value):
             if nodeSource.smaller:
                 return self.insert(value, nodeSource.smaller)
             else:
                 nodeSource.smaller = newNode
-                return "Inserido!"
         else:
-            return "Número ja existe"
-    
+            print(f"{value} ja existe")
+
     def count_nodes(self, node):
-        pass
-    
+        if node is None:
+            return 0
+        else:
+            height_smaller = self.count_nodes(node.smaller)
+            height_bigger = self.count_nodes(node.bigger)
+            return height_smaller + height_bigger + 1
+
     def count_leaf(self, node):
-        pass
-    
+        if node is None:
+            return 0
+        elif (node.smaller is None and node.bigger is None):
+            return 1
+        else:
+            height_smaller = self.count_leaf(node.smaller)
+            height_bigger = self.count_leaf(node.bigger)
+            return height_smaller + height_bigger
+
     def calc_height(self, node):
-        pass
-    
-    def print_tree(self, node=None, espaco=0):
-        raiz = node if node else self.main
-        if raiz is None:
-            return
-        # Espaços em branco para melhor formatação
-        espaco += 5
-        
-        # Processar o nó direito primeiro
-        if raiz.bigger:
-            self.print_tree(raiz.bigger, espaco)
-        
-        # Imprimir o nó atual
-        print(" " * espaco + str(raiz.value))
-        
-        # Processar o nó esquerdo
-        if raiz.smaller:
-            self.print_tree(raiz.smaller, espaco)
-            
-            
+        if node is None:
+            return 0
+        else:
+            height_smaller = self.calc_height(node.smaller)
+            height_bigger = self.calc_height(node.bigger)
+            return max(height_smaller, height_bigger)+1
+
+
+ptt = PrettyPrintTree(
+    lambda x: [x for x in [x.smaller, x.bigger] if x is not None],
+    lambda x: x.value
+)
 source = Node(5)
 tree = BinaryTree(source)
 
-print(tree.insert(3))
-print(tree.insert(4))
-print(tree.insert(8))
-print(tree.insert(6))
-print(tree.insert(2))
+tree.insert(3)
+tree.insert(4)
+tree.insert(8)
+tree.insert(6)
+tree.insert(2)
+tree.insert(2.2)
+tree.insert(2.3)
+tree.insert(1)
+tree.insert(1.5)
+tree.insert(1.6)
+tree.insert(7)
+tree.insert(9)
+tree.insert(7.5)
+tree.insert(7.6)
+tree.insert(7.7)
 
-# print(source.value)
-# print(source.bigger.value)
-# print(source.bigger.smaller.value)
-# print(source.smaller.value)
-# print(source.smaller.bigger.value)
-# print(source.smaller.smaller.value)
-tree.print_tree()
+ptt(source)
+
+print("\n")
+print("-" * 60)
+print(
+    f"A altura da árvore binária é de comprimento {tree.calc_height(source)}")
+print("-" * 60)
+print(f"A quantidade de nós da árvore binária é de {tree.count_nodes(source)}")
+print("-" * 60)
+print(
+    f"A quantidade de folhas da árvore binária é de {tree.count_leaf(source)}")
