@@ -58,38 +58,67 @@ class BinaryTree:
             height_bigger = self.calc_height(node.bigger)
             return max(height_smaller, height_bigger)+1
 
-
+    def delete_node(self, value, node=None, nodePrevious=None):
+        nodeSource = node if node else self.get_source()
+        if(value > nodeSource.value):
+            return self.delete_node(value, nodeSource.bigger, nodeSource)
+        elif(value < nodeSource.value):
+            return self.delete_node(value, nodeSource.smaller, nodeSource)
+        elif(value == nodeSource.value):
+            
+            if(nodeSource.smaller == None and nodeSource.bigger == None):
+                if(value > nodePrevious.value):
+                    nodePrevious.bigger = None
+                else:
+                    nodePrevious.smaller = None
+                    
+            elif(nodeSource.smaller == None and nodeSource.bigger):
+                if(nodeSource.bigger.value < nodePrevious.value):
+                    nodePrevious.smaller = nodeSource.bigger
+                else:
+                    nodePrevious.bigger = nodeSource.bigger
+                    
+                    
+            elif(nodeSource.bigger == None and nodeSource.smaller):           
+                if(nodeSource.smaller.value < nodePrevious.value):
+                    nodePrevious.smaller = nodeSource.smaller
+                else:
+                    nodePrevious.bigger = nodeSource.smaller
+            
+        
 ptt = PrettyPrintTree(
     lambda x: [x for x in [x.smaller, x.bigger] if x is not None],
     lambda x: x.value
 )
-source = Node(5)
+source = Node(51)
 tree = BinaryTree(source)
 
-tree.insert(3)
-tree.insert(4)
-tree.insert(8)
+tree.insert(33)
+tree.insert(41)
 tree.insert(6)
-tree.insert(2)
-tree.insert(2.2)
-tree.insert(2.3)
 tree.insert(1)
-tree.insert(1.5)
-tree.insert(1.6)
-tree.insert(7)
-tree.insert(9)
-tree.insert(7.5)
-tree.insert(7.6)
-tree.insert(7.7)
+tree.insert(22)
+tree.insert(45)
+tree.insert(79)
+tree.insert(90)
+tree.insert(80)
+tree.insert(56)
+tree.insert(69)
+tree.insert(67)
+tree.insert(72)
 
 ptt(source)
 
-print("\n")
+# print("\n")
+# print("-" * 60)
+# print(
+#     f"A altura da árvore binária é de comprimento {tree.calc_height(source)}")
+# print("-" * 60)
+# print(f"A quantidade de nós da árvore binária é de {tree.count_nodes(source)}")
+# print("-" * 60)
+# print(
+#     f"A quantidade de folhas da árvore binária é de {tree.count_leaf(source)}")
+
 print("-" * 60)
-print(
-    f"A altura da árvore binária é de comprimento {tree.calc_height(source)}")
-print("-" * 60)
-print(f"A quantidade de nós da árvore binária é de {tree.count_nodes(source)}")
-print("-" * 60)
-print(
-    f"A quantidade de folhas da árvore binária é de {tree.count_leaf(source)}")
+tree.delete_node(56)
+ptt(source)
