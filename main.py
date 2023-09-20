@@ -12,6 +12,8 @@ class BinaryTree:
     def __init__(self, source):
         self.source = source
 
+    
+        
     def get_source(self):
         return self.source
 
@@ -50,6 +52,17 @@ class BinaryTree:
             height_bigger = self.count_leaf(node.bigger)
             return height_smaller + height_bigger
 
+    def search_value(self, value, node=None):
+        nodeSource = node if node else self.get_source()
+        
+        if(value == nodeSource.value):
+            return f"Achei! O valor procurado é de: {value}"
+        elif(value > nodeSource.value):
+            return self.search_value(value, nodeSource.bigger)
+        elif(value < nodeSource.value):
+            return self.search_value(value, nodeSource.smaller)
+        
+    
     def search_node(self, node):
         if (not node):
             return None
@@ -71,7 +84,16 @@ class BinaryTree:
                 return self.search_smaller(value, node.bigger, nodeSmaller)
         elif (value == node.value):
             return self.search_smaller(value, node.smaller)
-
+    def search_smaller(self, node):
+        while node.smaller:
+            node = node.smaller
+        
+        return node
+        
+        
+        
+        
+        
     def calc_height(self, node):
         if node is None:
             return 0
@@ -95,14 +117,14 @@ class BinaryTree:
                     nodePrevious.smaller = None
 
             elif (nodeSource.smaller == None):
-              
+
                 if (nodePrevious.smaller == nodeSource):
                     nodePrevious.smaller = nodeSource.bigger
                 else:
                     nodePrevious.bigger = nodeSource.bigger
 
             elif (nodeSource.bigger == None):
-                
+
                 if (nodePrevious.smaller == nodeSource):
                     nodePrevious.smaller = nodeSource.bigger
                 else:
@@ -119,27 +141,28 @@ ptt = PrettyPrintTree(
     lambda x: [x for x in [x.smaller, x.bigger] if x is not None],
     lambda x: x.value
 )
-source = Node(51)
+source = Node(1)
+source2 = Node(3)
 tree = BinaryTree(source)
+tree2 = BinaryTree(source2)
 
-tree.insert(33)
-tree.insert(41)
+tree.insert(2)
+tree.insert(3)
+tree.insert(4)
+tree.insert(5)
 tree.insert(6)
-tree.insert(1)
-tree.insert(22)
-tree.insert(45)
-tree.insert(79)
-tree.insert(90)
-tree.insert(80)
-tree.insert(56)
-tree.insert(69)
-tree.insert(67)
-tree.insert(72)
-tree.insert(91)
-tree.insert(92)
-tree.insert(93)
-tree.insert(81)
-tree.insert(82)
+tree.insert(7)
+tree.insert(8)
+tree.insert(9)
+
+tree2.insert(2)
+tree2.insert(6)
+tree2.insert(5)
+tree2.insert(4)
+tree2.insert(1)
+tree2.insert(7)
+tree2.insert(8)
+tree2.insert(9)
 print("antes")
 ptt(source)
 
@@ -154,7 +177,12 @@ ptt(source)
 #     f"A quantidade de folhas da árvore binária é de {tree.count_leaf(source)}")
 
 print("-" * 60)
-tree.delete_node(33)
+tree.delete_node(6)
 print("depois")
 
 ptt(source)
+print("-" * 60)
+ptt(source2)
+
+print(f"o menor número é: {tree.search_smaller(source).value} e o maior número é: {tree.get_source().bigger.value}")
+print(tree.search_value(2))
