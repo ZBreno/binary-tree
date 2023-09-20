@@ -50,6 +50,28 @@ class BinaryTree:
             height_bigger = self.count_leaf(node.bigger)
             return height_smaller + height_bigger
 
+    def search_node(self, node):
+        if (not node):
+            return None
+
+        while node.smaller:
+            node = node.smaller
+
+        return node
+
+    def search_smaller(self, value, node, nodeSmaller=None):
+        if (not node):
+            return nodeSmaller, node
+        elif (value > node.value):
+            nodeSmaller = node
+            value = node.value
+            if (node.smaller):
+                return self.search_smaller(value, node.smaller, nodeSmaller)
+            else:
+                return self.search_smaller(value, node.bigger, nodeSmaller)
+        elif (value == node.value):
+            return self.search_smaller(value, node.smaller)
+
     def calc_height(self, node):
         if node is None:
             return 0
@@ -60,32 +82,39 @@ class BinaryTree:
 
     def delete_node(self, value, node=None, nodePrevious=None):
         nodeSource = node if node else self.get_source()
-        if(value > nodeSource.value):
+        if (value > nodeSource.value):
             return self.delete_node(value, nodeSource.bigger, nodeSource)
-        elif(value < nodeSource.value):
+        elif (value < nodeSource.value):
             return self.delete_node(value, nodeSource.smaller, nodeSource)
-        elif(value == nodeSource.value):
-            
-            if(nodeSource.smaller == None and nodeSource.bigger == None):
-                if(value > nodePrevious.value):
+        elif (value == nodeSource.value):
+
+            if (nodeSource.smaller == None and nodeSource.bigger == None):
+                if (value > nodePrevious.value):
                     nodePrevious.bigger = None
                 else:
                     nodePrevious.smaller = None
-                    
-            elif(nodeSource.smaller == None and nodeSource.bigger):
-                if(nodeSource.bigger.value < nodePrevious.value):
+
+            elif (nodeSource.smaller == None):
+              
+                if (nodePrevious.smaller == nodeSource):
                     nodePrevious.smaller = nodeSource.bigger
                 else:
                     nodePrevious.bigger = nodeSource.bigger
-                    
-                    
-            elif(nodeSource.bigger == None and nodeSource.smaller):           
-                if(nodeSource.smaller.value < nodePrevious.value):
-                    nodePrevious.smaller = nodeSource.smaller
+
+            elif (nodeSource.bigger == None):
+                
+                if (nodePrevious.smaller == nodeSource):
+                    nodePrevious.smaller = nodeSource.bigger
                 else:
-                    nodePrevious.bigger = nodeSource.smaller
-            
-        
+                    nodePrevious.bigger = nodeSource.bigger
+
+            elif (nodeSource.bigger and nodeSource.smaller):
+                bigger_value = self.search_node(nodeSource.bigger)
+                nodeSource.value = bigger_value.value
+
+                return self.delete_node(bigger_value.value, nodeSource.bigger, nodeSource)
+
+
 ptt = PrettyPrintTree(
     lambda x: [x for x in [x.smaller, x.bigger] if x is not None],
     lambda x: x.value
@@ -106,7 +135,12 @@ tree.insert(56)
 tree.insert(69)
 tree.insert(67)
 tree.insert(72)
-
+tree.insert(91)
+tree.insert(92)
+tree.insert(93)
+tree.insert(81)
+tree.insert(82)
+print("antes")
 ptt(source)
 
 # print("\n")
@@ -120,5 +154,7 @@ ptt(source)
 #     f"A quantidade de folhas da árvore binária é de {tree.count_leaf(source)}")
 
 print("-" * 60)
-tree.delete_node(56)
+tree.delete_node(33)
+print("depois")
+
 ptt(source)
