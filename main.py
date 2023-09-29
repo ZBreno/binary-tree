@@ -137,52 +137,52 @@ class BinaryTree:
                 return self.delete_node(bigger_value.value, nodeSource.bigger, nodeSource)
 
 
-ptt = PrettyPrintTree(
-    lambda x: [x for x in [x.smaller, x.bigger] if x is not None],
-    lambda x: x.value
-)
-source = Node(1)
-source2 = Node(3)
-tree = BinaryTree(source)
-tree2 = BinaryTree(source2)
+# ptt = PrettyPrintTree(
+#     lambda x: [x for x in [x.smaller, x.bigger] if x is not None],
+#     lambda x: x.value
+# )
+# source = Node(1)
+# source2 = Node(3)
+# tree = BinaryTree(source)
+# tree2 = BinaryTree(source2)
 
-tree.insert(2)
-tree.insert(3)
-tree.insert(4)
-tree.insert(5)
-tree.insert(6)
-tree.insert(7)
-tree.insert(8)
-tree.insert(9)
+# tree.insert(2)
+# tree.insert(3)
+# tree.insert(4)
+# tree.insert(5)
+# tree.insert(6)
+# tree.insert(7)
+# tree.insert(8)
+# tree.insert(9)
 
-tree2.insert(2)
-tree2.insert(6)
-tree2.insert(5)
-tree2.insert(4)
-tree2.insert(1)
-tree2.insert(7)
-tree2.insert(8)
-tree2.insert(9)
-print("antes")
-ptt(source)
+# tree2.insert(2)
+# tree2.insert(6)
+# tree2.insert(5)
+# tree2.insert(4)
+# tree2.insert(1)
+# tree2.insert(7)
+# tree2.insert(8)
+# tree2.insert(9)
+# print("antes")
+# ptt(source)
 
-# print("\n")
+# # print("\n")
+# # print("-" * 60)
+# # print(
+# #     f"A altura da árvore binária é de comprimento {tree.calc_height(source)}")
+# # print("-" * 60)
+# # print(f"A quantidade de nós da árvore binária é de {tree.count_nodes(source)}")
+# # print("-" * 60)
+# # print(
+# #     f"A quantidade de folhas da árvore binária é de {tree.count_leaf(source)}")
+
 # print("-" * 60)
-# print(
-#     f"A altura da árvore binária é de comprimento {tree.calc_height(source)}")
+# tree.delete_node(6)
+# print("depois")
+
+# ptt(source)
 # print("-" * 60)
-# print(f"A quantidade de nós da árvore binária é de {tree.count_nodes(source)}")
-# print("-" * 60)
-# print(
-#     f"A quantidade de folhas da árvore binária é de {tree.count_leaf(source)}")
+# ptt(source2)
 
-print("-" * 60)
-tree.delete_node(6)
-print("depois")
-
-ptt(source)
-print("-" * 60)
-ptt(source2)
-
-print(f"o menor número é: {tree.search_smaller(source).value} e o maior número é: {tree.get_source().bigger.value}")
-print(tree.search_value(2))
+# print(f"o menor número é: {tree.search_smaller(source).value} e o maior número é: {tree.get_source().bigger.value}")
+# print(tree.search_value(2))
