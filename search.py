@@ -1,7 +1,5 @@
 import time
 import random
-import sys
-sys.setrecursionlimit(50000)
 
 min = 0
 max = 1000000
@@ -22,7 +20,7 @@ def bubble_sort(values, sort=False):
 
 
 def quicksort(values, start=0, end=None):
-    if (not end):
+    if (end is None):
         end = len(values)-1
 
     if (start < end):
@@ -56,10 +54,10 @@ def linear_search(values, value):
 
 
 def binary_search(values, value, start, end):
-    
-    if(value == values[len(values)-1] or value == values[0]):
+
+    if (value == values[len(values)-1] or value == values[0]):
         return value
-    
+
     while True:
         middle = (start+end)//2
         if (value == values[middle]):
@@ -70,6 +68,7 @@ def binary_search(values, value, start, end):
 
         elif (value > values[middle]):
             start = middle
+
 
 # start = time.time()
 # bubble_sort(values)
@@ -85,10 +84,11 @@ start = time.time()
 binary_search(values, values[random.randint(
     min, quantityValues-1)], 0, len(values)-1)
 end = time.time()
-print(f"Busca binária: {round(end-start, 2)} Segundos")
+print(f"Busca binária: {round(end-start, 5)} Segundos")
 
 
 start = time.time()
-linear_search(values, values[random.randint(min, quantityValues-1)])
+linear_search(values, values[random.randint(
+    min, quantityValues-1)])
 end = time.time()
-print(f"Busca linear: {round(end-start, 2)} Segundos")
+print(f"Busca linear: {round(end-start, 5)} Segundos")
